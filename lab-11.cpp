@@ -23,6 +23,11 @@ int main() {
     // Gets the unfixed number of students array size
     cout << "How many students? ";
     cin >> numStudents;
+    // Make sure at least one student is entered
+    while (numStudents <= 0) {
+        cout << "Please enter a number greater than 0\n How many students? ";
+        cin >> numStudents;
+    }
     cin.ignore();
 
     // Creates a dynamic array of Student structs
@@ -64,6 +69,11 @@ void inputStudent(Student *sptr) {
 
     cout << "How many grades? ";
     cin >> sptr->numGrades;
+    // Make sure the student has at least one grade
+    while (sptr->numGrades <= 0) {
+        cout << "Please enter a number greater than 0: ";
+        cin >> sptr->numGrades;
+    }
 
     // Creates a dynamic grades array based on the number entered
     sptr->grades = new int[sptr->numGrades];
@@ -72,6 +82,12 @@ void inputStudent(Student *sptr) {
     for (int i = 0; i < sptr->numGrades; i++) {
         cout << "Grade #" << i + 1 << ": ";
         cin >> sptr->grades[i];
+
+        // Make sure the grades is between 0 - 100
+        while (sptr->grades[i] < 0 || sptr->grades[i] > 100) {
+            cout << "Please enter the grade #" << i + 1 << " between 0 - 100: ";
+            cin >> sptr->grades[i];
+        }
     }
 
     // Removes the newline before the next student's name uses getline()
