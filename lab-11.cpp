@@ -4,13 +4,15 @@
 #include <string>
 using namespace std;
 
+// Stores the information for each student
 struct Student {
     string name;
     int id;
     int numGrades;
-    int *grades;
+    int *grades; // Points to a dynamic array
 };
 
+// Function prototype
 void inputStudent(Student *);
 void displayStudent(Student *);
 void deleteStudentData(Student *);
@@ -18,21 +20,34 @@ void deleteStudentData(Student *);
 int main() {
     int numStudents;
 
+    // Gets the unfixed number of students array size
     cout << "How many students? ";
     cin >> numStudents;
     cin.ignore();
 
+    // Creates a dynamic array of Student structs
     Student *students = new Student[numStudents];
 
+    // Gets the information for each student
     for (int i = 0; i < numStudents; i++) {
         cout << "\nStudent #" << i + 1 << endl;
         inputStudent(&students[i]);
     }
 
+    // Displays all student information
     cout << "\n\nStudent Summary\n";
     for (int i = 0; i < numStudents; i++) {
         displayStudent(&students[i]);
     }
+
+    // Deletes each student's dynamic grades array first
+    for (int i = 0; i < numStudents; i++) {
+        deleteStudentData(&students[i]);
+    }
+
+    // Deletes the dynamic array of Student structs
+    delete [] students;
+    students = nullptr;
 
     return 0;
 }
@@ -50,13 +65,16 @@ void inputStudent(Student *sptr) {
     cout << "How many grades? ";
     cin >> sptr->numGrades;
 
+    // Creates a dynamic grades array based on the number entered
     sptr->grades = new int[sptr->numGrades];
 
+    // Stores each grade inside the student's dynamic array
     for (int i = 0; i < sptr->numGrades; i++) {
         cout << "Grade #" << i + 1 << ": ";
         cin >> sptr->grades[i];
     }
 
+    // Removes the newline before the next student's name uses getline()
     cin.ignore();
 }
 
@@ -67,10 +85,21 @@ void displayStudent(Student *sptr) {
     cout << "\nName: " << sptr->name << endl;
     cout << "ID: " << sptr->id << endl;
     
+    // Goes through the dynamic grades array and displays every grade
     cout << "Grades: ";
     for (int i = 0; i < sptr->numGrades; i++) {
         cout << sptr->grades[i] << " ";
     }
 
     cout << endl;
+}
+
+// deleteStudentData() releases the dynamic grades array for one studen
+// arguments: pointer to a student
+// returns: nothing
+void deleteStudentData(Student *sptr) {
+    // This matches the new [] used when the grades array was created
+    delete [] sptr->grades;
+    // Makes sure the pointer is not left pointing to deleted memory
+    sptr->grades = nullptr;
 }
