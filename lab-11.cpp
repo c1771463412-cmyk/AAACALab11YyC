@@ -24,6 +24,16 @@ int main() {
 
     Student *students = new Student[numStudents];
 
+    for (int i = 0; i < numStudents; i++) {
+        cout << "\nStudent #" << i + 1 << endl;
+        inputStudent(&students[i]);
+    }
+
+    cout << "\n\nStudent Summary\n";
+    for (int i = 0; i < numStudents; i++) {
+        displayStudent(&students[i]);
+    }
+
     return 0;
 }
 
@@ -42,5 +52,25 @@ void inputStudent(Student *sptr) {
 
     sptr->grades = new int[sptr->numGrades];
 
+    for (int i = 0; i < sptr->numGrades; i++) {
+        cout << "Grade #" << i + 1 << ": ";
+        cin >> sptr->grades[i];
+    }
 
+    cin.ignore();
+}
+
+// displayStudent() displays information and grades for one student
+// arguments: pointer to a Student
+// returns: nothing
+void displayStudent(Student *sptr) {
+    cout << "\nName: " << sptr->name << endl;
+    cout << "ID: " << sptr->id << endl;
+    
+    cout << "Grades: ";
+    for (int i = 0; i < sptr->numGrades; i++) {
+        cout << sptr->grades[i] << " ";
+    }
+
+    cout << endl;
 }
